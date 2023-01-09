@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fun.truthteller.truth_teller">
+    package="fun.truthteller">
    <application
         android:label="Truth Teller"
         android:name="${applicationName}"
