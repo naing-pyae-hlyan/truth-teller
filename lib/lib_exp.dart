@@ -2,6 +2,7 @@
 export 'main.dart';
 export 'splash_page.dart';
 export 'ctrl/_ctrl_exp.dart';
+export 'extensions/_ext_exp.dart';
 export 'localization/_localization_exp.dart';
 export 'model/_model_exp.dart';
 export 'ui/_ui_exp.dart';

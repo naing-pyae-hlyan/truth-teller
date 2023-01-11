@@ -59,6 +59,7 @@ class NLocalizationAppState extends State<NLocalizationApp> {
       theme: ThemeData(
         fontFamily: widget.fontFamily,
         appBarTheme: const AppBarTheme(
+          color: primaryColor,
           titleTextStyle: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
