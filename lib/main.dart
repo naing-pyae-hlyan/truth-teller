@@ -1,4 +1,4 @@
-import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
 
 import 'lib_exp.dart';
 
@@ -15,7 +15,16 @@ void main() async {
       DeviceOrientation.portraitUp,
     ],
   );
-  runApp(const MyApp());
+  await HiveHelper.init();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DataCtrl()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

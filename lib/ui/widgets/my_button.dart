@@ -6,6 +6,7 @@ class MyButton extends StatelessWidget {
   final Color? labelColor;
   final double? width;
   final EdgeInsets? padding;
+  final EdgeInsets? margin;
   final BorderRadius? borderRadius;
   final Widget? leading;
   final String label;
@@ -19,8 +20,9 @@ class MyButton extends StatelessWidget {
     Key? key,
     required this.onTap,
     this.color,
-    this.width = double.infinity,
+    this.width,
     this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    this.margin = EdgeInsets.zero,
     this.borderRadius,
     this.leading,
     required this.label,
@@ -34,14 +36,15 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
+      margin: margin,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           elevation: elevation,
-          backgroundColor: color ?? primaryColor,
-          shadowColor: primaryColor.withOpacity(0.4),
+          backgroundColor: color ?? thirdaryColor,
+          shadowColor: thirdaryColor.withOpacity(0.4),
           padding: kIsWeb
               ? padding?.copyWith(
                   top: (padding?.top ?? 0) + 8,
@@ -91,7 +94,7 @@ class MyButton extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: labelFontWeight,
-          color: labelColor ?? fourtharyColor,
+          color: labelColor ?? Colors.white,
         ),
       );
 }

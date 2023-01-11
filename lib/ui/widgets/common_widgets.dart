@@ -23,17 +23,45 @@ const verticalHeight48 = SizedBox(height: 48);
 const verticalHeight64 = SizedBox(height: 64);
 
 // ignore: non_constant_identifier_names
-Scaffold MyImageScaffold({
+Widget MyImageScaffold({
   AppBar? appBar,
   required Widget body,
+  bool extendBodyBehindAppBar = false,
   String bgAssetImage = 'assets/images/bg_image.png',
 }) =>
-    Scaffold(
-      appBar: appBar,
-      body: Stack(
-        children: <Widget>[
-          Image.asset(bgAssetImage),
-          Expanded(child: body),
-        ],
+    SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: extendBodyBehindAppBar,
+        appBar: appBar,
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              bgAssetImage,
+              color: secondaryColor,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: body,
+            ),
+          ],
+        ),
       ),
+    );
+
+Widget roundedBorder({
+  required Widget child,
+  double borderRadius = 128,
+  Color borderColor = primaryColor,
+  double padding = 4,
+}) =>
+    Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: borderColor,
+        ),
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      padding: EdgeInsets.all(padding),
+      child: child,
     );
