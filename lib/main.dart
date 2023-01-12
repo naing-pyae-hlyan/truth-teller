@@ -1,5 +1,3 @@
-import 'package:provider/provider.dart';
-
 import 'lib_exp.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -21,6 +19,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => DataCtrl()),
+        ChangeNotifierProvider(create: (_) => BubbleSelectCtrl()),
       ],
       child: const MyApp(),
     ),

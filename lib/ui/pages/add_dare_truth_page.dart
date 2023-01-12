@@ -13,12 +13,16 @@ class AddDareTruthPage extends StatefulWidget {
 
 class _AddDareTruthPageState extends State<AddDareTruthPage> {
   final _editingController = TextEditingController();
+  late BubbleSelectCtrl _checkBoxCtrl;
 
   Future<void> _addData() async {
     final text = _editingController.text;
     if (text.isEmpty) return;
     HiveHelper.put(
-      DataModel(text: text),
+      DataModel(
+        text: text,
+        modes: _checkBoxCtrl.getModes(),
+      ),
       isDare: widget.isDare,
     );
   }
@@ -26,6 +30,13 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
   Future<void> _deleteData(int? idKey) async {
     if (idKey == null) return;
     HiveHelper.delete(idKey, isDare: widget.isDare);
+  }
+
+  @override
+  void initState() {
+    _checkBoxCtrl = context.read<BubbleSelectCtrl>();
+    _checkBoxCtrl.init();
+    super.initState();
   }
 
   @override
@@ -55,6 +66,8 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _inputFormWithAddButton,
+            verticalHeight24,
+            _checkBoxGroup,
             _listViewBuilder,
             _backButton,
           ],
@@ -92,44 +105,93 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
         ),
       );
 
-  Widget get _listViewBuilder => ValueListenableBuilder(
-        valueListenable: HiveHelper.box(widget.isDare).listenable(),
-        builder: (_, Box<DataModel> items, __) {
-          List<int> keys = items.keys.cast<int>().toList();
-          return Expanded(
-            child: RawScrollbar(
-              thumbColor: primaryColor,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: keys.length,
-                itemBuilder: (_, index) {
-                  final DataModel? data = items.get(keys[index]);
-                  if (data == null) return emptyUI;
-                  return Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: ListTile(
-                      title:
-                          myText(data.text, color: primaryColor, maxLine: 10),
-                      trailing: Clickable(
-                        onTap: () => _deleteData(keys[index]),
-                        child: const Icon(
-                          Icons.close,
-                          size: 18,
-                          color: primaryColor,
-                        ),
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      tileColor: secondaryColor.withOpacity(0.1),
-                    ),
-                  );
-                },
+  Widget get _checkBoxGroup => Consumer<BubbleSelectCtrl>(
+        builder: (_, ctrl, __) {
+          final List<PlayModeModel> list = ctrl.checkList;
+          return Wrap(
+            children: List.generate(
+              list.length,
+              (index) => BubbleSelect(
+                data: list[index],
+                onTap: () => ctrl.onSelect(list[index].mode),
               ),
             ),
           );
+        },
+      );
+
+  Widget get _listViewBuilder => ValueListenableBuilder(
+        valueListenable: HiveHelper.box(widget.isDare).listenable(),
+        builder: (_, Box<DataModel> items, __) {
+          final List<int> keys = items.keys.cast<int>().toList();
+
+          return Consumer<BubbleSelectCtrl>(builder: (context, checkCtrl, __) {
+            final List<int> modeIndexs = checkCtrl.getModes();
+            final List<DataModel> dataModelList =
+                items.values.cast<DataModel>().toList();
+            final List<DataModel?> list = [];
+
+            for (DataModel dm in dataModelList) {
+              final List<int> i = dm.modes
+                  .where((element) => modeIndexs.contains(element))
+                  .toList();
+              if (i.isNotEmpty) {
+                list.add(dm);
+              }
+            }
+
+            return Expanded(
+              child: RawScrollbar(
+                thumbColor: primaryColor,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: list.length,
+                  itemBuilder: (_, index) {
+                    if (list[index] == null) return emptyUI;
+                    return Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      child: ListTile(
+                        title: myText(
+                          list[index]!.text,
+                          color: primaryColor,
+                          fontSize: 14,
+                          maxLine: 10,
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: List.generate(
+                            list[index]!.modes.length,
+                            (i) => Container(
+                              width: 8,
+                              height: 8,
+                              margin: const EdgeInsets.only(top: 16, right: 4),
+                              child: CircleAvatar(
+                                backgroundColor: parsePlayModeToColor(i),
+                              ),
+                            ),
+                          ),
+                        ),
+                        trailing: Clickable(
+                          onTap: () => _deleteData(keys[index]),
+                          child: const Icon(
+                            Icons.close,
+                            size: 18,
+                            color: primaryColor,
+                          ),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        tileColor: secondaryColor.withOpacity(0.1),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          });
         },
       );
 
