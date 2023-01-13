@@ -15,7 +15,10 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
   Future<void> _checkPlayerListAndPlay() async {
     final int length = HiveHelper.boxUser().length;
     if (length > minPlayers && length < maxPlayers) {
-      context.pushReplacement(LevelUpPage(playMode: widget.playMode));
+      context.pushReplacement(LevelUpPage(
+        playMode: widget.playMode,
+        userList: [],
+      ));
     } else {
       showToast(
         'Player မှာ အနည်းဆုံး ၂ယောက်မှ အများဆုံး ၅၀ယောက်ထိသာ ကစားနိုင်ပါသည်။',

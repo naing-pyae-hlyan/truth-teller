@@ -35,16 +35,49 @@ class HiveHelper {
   static void addDareOrTruth(
     DataModel data, {
     required bool isDare,
-  }) =>
+  }) {
+    try {
       isDare ? _dareBox.add(data) : _truthBox.add(data);
+    } catch (e) {
+      showToast(e.toString());
+    }
+  }
 
   static void deleteDareOrTruth(
     int id, {
     required bool isDare,
-  }) =>
+  }) {
+    try {
       isDare ? _dareBox.delete(id) : _truthBox.delete(id);
+    } catch (e) {
+      showToast(e.toString());
+    }
+  }
 
   static Box<UserModel> boxUser() => _userBox;
-  static void addUser(UserModel data) => _userBox.add(data);
-  static void deleteUser(int id) => _userBox.delete(id);
+  static void addUser(UserModel data) {
+    try {
+      _userBox.add(data);
+    } catch (e) {
+      showToast(e.toString());
+    }
+  }
+
+  static void deleteUser(int id) {
+    try {
+      _userBox.delete(id);
+    } catch (e) {
+      showToast(e.toString());
+    }
+  }
+
+  static List<UserModel> getUserList() {
+    try {
+      final List<UserModel> result = _userBox.values as List<UserModel>;
+      return result;
+    } catch (e) {
+      showToast(e.toString());
+      return [];
+    }
+  }
 }

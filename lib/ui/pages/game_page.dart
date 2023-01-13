@@ -45,16 +45,6 @@ class _GamePageState extends State<GamePage> {
       body: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: currentBalance.isNegative ? Colors.red : Colors.green,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: myText('Current Balance $currentBalance',
-                fontSize: 18, color: Colors.white),
-          ),
-          verticalHeight24,
-          Container(
             color: primaryColor.withOpacity(0.2),
             height: 80,
             width: 80,
