@@ -20,18 +20,18 @@ String parsePlayModeLabel(PlayMode mode) {
   }
 }
 
-Color parsePlayModeToColor(int index) {
+Color parsePlayModeToColor(dynamic index) {
   Color color = Colors.transparent;
-  if (index == PlayMode.alcholic.index) {
+  if (index == PlayMode.alcholic.index || index == PlayMode.alcholic) {
     color = primaryColor;
   }
-  if (index == PlayMode.friends.index) {
+  if (index == PlayMode.friends.index || index == PlayMode.friends) {
     color = Colors.indigo;
   }
-  if (index == PlayMode.flirt.index) {
+  if (index == PlayMode.flirt.index || index == PlayMode.flirt) {
     color = Colors.purple;
   }
-  if (index == PlayMode.couple.index) {
+  if (index == PlayMode.couple.index || index == PlayMode.couple) {
     color = Colors.pink;
   }
   return color;

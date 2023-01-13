@@ -1,3 +1,5 @@
+import 'package:truth_teller/home_page.dart';
+
 import '../../lib_exp.dart';
 
 Widget get emptyUI => const SizedBox.shrink();
@@ -104,7 +106,7 @@ Widget backToHomeButton(
   dynamic result,
 }) =>
     MyButton(
-      onTap: onTap ?? () => context.pop(result: result),
+      onTap: onTap ?? () => context.pushReplacement(const HomePage()),
       label: 'Back To Home',
       leading: const Icon(
         Icons.arrow_back_ios,
@@ -115,3 +117,4 @@ Widget backToHomeButton(
       borderRadius: BorderRadius.circular(8),
       padding: const EdgeInsets.all(16),
     );
+

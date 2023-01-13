@@ -17,13 +17,13 @@ class BubbleSelect extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          border: Border.all(color: parsePlayModeToColor(data.mode.index)),
+          border: Border.all(color: parsePlayModeToColor(data.mode)),
           borderRadius: BorderRadius.circular(32),
-          color: data.selected ? parsePlayModeToColor(data.mode.index) : Colors.white,
+          color: data.selected ? parsePlayModeToColor(data.mode) : Colors.white,
         ),
         child: myText(
           parsePlayModeLabel(data.mode),
-          color: data.selected ? Colors.white : parsePlayModeToColor(data.mode.index),
+          color: data.selected ? Colors.white : parsePlayModeToColor(data.mode),
           fontWeight: FontWeight.w700,
         ),
       ),

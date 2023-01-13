@@ -31,7 +31,8 @@ class _PlayHomePageState extends State<PlayHomePage> {
               thirdaryColor,
               fourtharyColor,
             ],
-            onTap: () {},
+            onTap: () =>
+                context.push(const AddPlayerPage(playMode: PlayMode.alcholic)),
           ),
           verticalHeight12,
           MyGradientButton(
@@ -42,7 +43,8 @@ class _PlayHomePageState extends State<PlayHomePage> {
               thirdaryColor,
               fourtharyColor,
             ],
-            onTap: () {},
+            onTap: () =>
+                context.push(const AddPlayerPage(playMode: PlayMode.friends)),
           ),
           verticalHeight12,
           MyGradientButton(

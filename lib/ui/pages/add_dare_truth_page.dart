@@ -12,20 +12,15 @@ class AddDareTruthPage extends StatefulWidget {
 }
 
 class _AddDareTruthPageState extends State<AddDareTruthPage> {
-  final _editingController = TextEditingController();
   late BubbleSelectCtrl _checkBoxCtrl;
 
-  Future<void> _addData() async {
-    final text = _editingController.text;
-    if (text.isEmpty) return;
-    HiveHelper.put(
-      DataModel(
-        text: text,
-        modes: _checkBoxCtrl.getModes(),
-      ),
-      isDare: widget.isDare,
-    );
-  }
+  Future<void> _addData(String text) async => HiveHelper.put(
+        DataModel(
+          text: text,
+          modes: _checkBoxCtrl.getModes(),
+        ),
+        isDare: widget.isDare,
+      );
 
   Future<void> _deleteData(int? idKey) async {
     if (idKey == null) return;
@@ -37,12 +32,6 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
     _checkBoxCtrl = context.read<BubbleSelectCtrl>();
     _checkBoxCtrl.init();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _editingController.dispose();
-    super.dispose();
   }
 
   @override
@@ -60,7 +49,12 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _inputFormWithAddButton,
+            InputFormWithButton(
+              hintText: widget.isDare
+                  ? 'Enter your dares here'
+                  : 'Enter your truths here',
+              onPressed: (String str) => _addData(str),
+            ),
             verticalHeight24,
             _checkBoxGroup,
             _listViewBuilder,
@@ -70,35 +64,6 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
       ),
     );
   }
-
-  Widget get _inputFormWithAddButton => Container(
-        // color: secondaryColor,
-        margin: const EdgeInsets.only(top: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: context.screenWidth * 0.7 - 24,
-              child: CommonInputWidget(
-                editingController: _editingController,
-                hintText: widget.isDare
-                    ? 'Enter your dare here'
-                    : 'Enter your truths here',
-                useOutlineInputBorder: true,
-              ),
-            ),
-            MyButton(
-              onTap: () => _addData(),
-              label: 'Add',
-              width: context.screenWidth * 0.25 - 24,
-              borderRadius: BorderRadius.circular(8),
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.only(top: 8),
-            ),
-          ],
-        ),
-      );
 
   Widget get _checkBoxGroup => Consumer<BubbleSelectCtrl>(
         builder: (_, ctrl, __) {
@@ -194,5 +159,4 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
           });
         },
       );
-
 }
