@@ -39,6 +39,7 @@ Widget MyImageScaffold({
               bgAssetImage,
               color: secondaryColor,
               fit: BoxFit.cover,
+              width: double.maxFinite,
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -49,19 +50,68 @@ Widget MyImageScaffold({
       ),
     );
 
-Widget roundedBorder({
-  required Widget child,
-  double borderRadius = 128,
-  Color borderColor = primaryColor,
-  double padding = 4,
+AppBar myAppBar(
+  BuildContext context, {
+  String? title,
+  bool automaticallyImplyLeading = false,
+  bool centerTitle = false,
+  Color backgroundColor = Colors.transparent,
+  double elevation = 0.0,
+  Color arrowColor = primaryColor,
+  Function()? onBackPress,
+  List<Widget>? actions,
+  bool addCloseButton = false,
+  dynamic result,
 }) =>
-    Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: borderColor,
-        ),
-        borderRadius: BorderRadius.circular(borderRadius),
+    AppBar(
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      centerTitle: centerTitle,
+      leading: automaticallyImplyLeading
+          ? IconButton(
+              icon: Icon(
+                Icons.close,
+                color: arrowColor,
+              ),
+              onPressed: onBackPress ?? () => context.pop(result: result),
+            )
+          : emptyUI,
+      title: title == null
+          ? emptyUI
+          : myText(
+              title,
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+            ),
+      actions: actions ??
+          [
+            addCloseButton
+                ? IconButton(
+                    onPressed: () => context.pop(result: result),
+                    icon: const Icon(
+                      Icons.close,
+                      color: primaryColor,
+                    ),
+                  )
+                : emptyUI,
+          ],
+      backgroundColor: backgroundColor,
+      elevation: elevation,
+    );
+
+Widget backToHomeButton(
+  BuildContext context, {
+  Function()? onTap,
+  dynamic result,
+}) =>
+    MyButton(
+      onTap: onTap ?? () => context.pop(result: result),
+      label: 'Back To Home',
+      leading: const Icon(
+        Icons.arrow_back_ios,
+        color: Colors.white,
+        size: 18,
       ),
-      padding: EdgeInsets.all(padding),
-      child: child,
+      width: context.screenWidth * 0.7 - 24,
+      borderRadius: BorderRadius.circular(8),
+      padding: const EdgeInsets.all(16),
     );

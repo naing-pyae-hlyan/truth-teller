@@ -20,14 +20,14 @@ class _HomePageState extends State<HomePage> {
           verticalHeight32,
           MyGradientButton(
             label: 'Play',
-            onTap: () {},
+            onTap: () => context.push(const PlayHomePage()),
           ),
-          verticalHeight8,
+          verticalHeight12,
           MyGradientButton(
             label: 'Add Truths',
             onTap: () => context.push(const AddDareTruthPage(isDare: false)),
           ),
-          verticalHeight8,
+          verticalHeight12,
           MyGradientButton(
             label: 'Add Dares',
             onTap: () => context.push(const AddDareTruthPage(isDare: true)),

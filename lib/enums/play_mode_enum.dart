@@ -21,17 +21,20 @@ String parsePlayModeLabel(PlayMode mode) {
 }
 
 Color parsePlayModeToColor(int index) {
+  Color color = Colors.transparent;
   if (index == PlayMode.alcholic.index) {
-    return primaryColor;
-  } else if (index == PlayMode.friends.index) {
-    return Colors.indigo;
-  } else if (index == PlayMode.flirt.index) {
-    return Colors.purple;
-  } else if (index == PlayMode.couple.index) {
-    return Colors.pink;
-  } else {
-    return Colors.transparent;
+    color = primaryColor;
   }
+  if (index == PlayMode.friends.index) {
+    color = Colors.indigo;
+  }
+  if (index == PlayMode.flirt.index) {
+    color = Colors.purple;
+  }
+  if (index == PlayMode.couple.index) {
+    color = Colors.pink;
+  }
+  return color;
 }
 
 class PlayModeModel {

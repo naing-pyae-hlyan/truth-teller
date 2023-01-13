@@ -51,16 +51,11 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
       onTap: () => context.hideKeyboard(),
       child: MyImageScaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          title: myText(
-            widget.isDare ? 'Add Dares' : 'Add Truths',
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-          ),
+        appBar: myAppBar(
+          context,
+          title: widget.isDare ? 'Add Dares' : 'Add Truths',
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          elevation: 0,
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +64,7 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
             verticalHeight24,
             _checkBoxGroup,
             _listViewBuilder,
-            _backButton,
+            backToHomeButton(context),
           ],
         ),
       ),
@@ -161,14 +156,19 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: List.generate(
                             list[index]!.modes.length,
-                            (i) => Container(
-                              width: 8,
-                              height: 8,
-                              margin: const EdgeInsets.only(top: 16, right: 4),
-                              child: CircleAvatar(
-                                backgroundColor: parsePlayModeToColor(i),
-                              ),
-                            ),
+                            (int i) {
+                              return Container(
+                                width: 8,
+                                height: 8,
+                                margin:
+                                    const EdgeInsets.only(top: 16, right: 4),
+                                child: CircleAvatar(
+                                  backgroundColor: parsePlayModeToColor(
+                                    list[index]!.modes[i],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         trailing: Clickable(
@@ -195,16 +195,4 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
         },
       );
 
-  Widget get _backButton => MyButton(
-        onTap: () => context.pop(),
-        label: 'Back To Home',
-        leading: const Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 18,
-        ),
-        width: context.screenWidth * 0.7 - 24,
-        borderRadius: BorderRadius.circular(8),
-        padding: const EdgeInsets.all(16),
-      );
 }

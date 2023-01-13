@@ -18,7 +18,7 @@ class MyGradientButton extends StatelessWidget {
     ],
     this.labelColor,
     this.width = double.infinity,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     this.borderRadius,
     required this.onTap,
     super.key,
