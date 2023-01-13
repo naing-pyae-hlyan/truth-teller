@@ -1,6 +1,8 @@
+
 import 'package:truth_teller/home_page.dart';
 
 import 'lib_exp.dart';
+
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,6 +15,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    fToast.init(context);
     doAfterBuild(callback: () => context.push(const HomePage()));
   }
 

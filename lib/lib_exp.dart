@@ -8,6 +8,7 @@ export 'dialogs/_dialogs_exp.dart';
 export 'enums/_enums_exp.dart';
 export 'localization/_localization_exp.dart';
 export 'model/_model_exp.dart';
+export 'nwheel/_wheel_exp.dart';
 export 'ui/_ui_exp.dart';
 export 'utils/_utils_exp.dart';
 
@@ -27,3 +28,4 @@ export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:loader_overlay/loader_overlay.dart';
 export 'package:hive/hive.dart';
 export 'package:hive_flutter/hive_flutter.dart';
+export 'package:fluttertoast/fluttertoast.dart';

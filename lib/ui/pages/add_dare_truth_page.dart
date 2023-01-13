@@ -14,7 +14,7 @@ class AddDareTruthPage extends StatefulWidget {
 class _AddDareTruthPageState extends State<AddDareTruthPage> {
   late BubbleSelectCtrl _checkBoxCtrl;
 
-  Future<void> _addData(String text) async => HiveHelper.put(
+  Future<void> _addData(String text) async => HiveHelper.addDareOrTruth(
         DataModel(
           text: text,
           modes: _checkBoxCtrl.getModes(),
@@ -24,7 +24,7 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
 
   Future<void> _deleteData(int? idKey) async {
     if (idKey == null) return;
-    HiveHelper.delete(idKey, isDare: widget.isDare);
+    HiveHelper.deleteDareOrTruth(idKey, isDare: widget.isDare);
   }
 
   @override
@@ -81,17 +81,17 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
       );
 
   Widget get _listViewBuilder => ValueListenableBuilder(
-        valueListenable: HiveHelper.box(widget.isDare).listenable(),
+        valueListenable: HiveHelper.boxDareOrTruth(widget.isDare).listenable(),
         builder: (_, Box<DataModel> items, __) {
           final List<int> keys = items.keys.cast<int>().toList();
+          final List<DataModel> values =
+              items.values.cast<DataModel>().toList();
 
           return Consumer<BubbleSelectCtrl>(builder: (context, checkCtrl, __) {
             final List<int> modeIndexs = checkCtrl.getModes();
-            final List<DataModel> dataModelList =
-                items.values.cast<DataModel>().toList();
             final List<DataModel?> list = [];
 
-            for (DataModel dm in dataModelList) {
+            for (DataModel dm in values) {
               final List<int> i = dm.modes
                   .where((element) => modeIndexs.contains(element))
                   .toList();
@@ -108,49 +108,9 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
                   itemCount: list.length,
                   itemBuilder: (_, index) {
                     if (list[index] == null) return emptyUI;
-                    return Container(
-                      margin: const EdgeInsets.only(top: 8),
-                      child: ListTile(
-                        title: myText(
-                          list[index]!.text,
-                          color: primaryColor,
-                          fontSize: 14,
-                          maxLine: 10,
-                        ),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: List.generate(
-                            list[index]!.modes.length,
-                            (int i) {
-                              return Container(
-                                width: 8,
-                                height: 8,
-                                margin:
-                                    const EdgeInsets.only(top: 16, right: 4),
-                                child: CircleAvatar(
-                                  backgroundColor: parsePlayModeToColor(
-                                    list[index]!.modes[i],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        trailing: Clickable(
-                          onTap: () => _deleteData(keys[index]),
-                          child: const Icon(
-                            Icons.close,
-                            size: 18,
-                            color: primaryColor,
-                          ),
-                        ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        tileColor: secondaryColor.withOpacity(0.1),
-                      ),
+                    return MyListTile(
+                      dataModel: list[index],
+                      onRemove: () => _deleteData(keys[index]),
                     );
                   },
                 ),

@@ -118,3 +118,14 @@ Widget backToHomeButton(
       padding: const EdgeInsets.all(16),
     );
 
+Widget playButton(
+  BuildContext context, {
+  required Function() onTap,
+}) =>
+    MyButton(
+      onTap: onTap,
+      label: 'ကစားမယ်',
+      width: context.screenWidth * 0.7 - 24,
+      borderRadius: BorderRadius.circular(8),
+      padding: const EdgeInsets.all(10),
+    );

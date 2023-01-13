@@ -2,6 +2,7 @@ import 'lib_exp.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+FToast fToast = FToast();
 void main() async {
   ErrorWidget.builder =
       (FlutterErrorDetails error) => MyErrorWidget(error: error);
