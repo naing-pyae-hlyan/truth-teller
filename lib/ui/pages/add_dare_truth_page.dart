@@ -70,11 +70,20 @@ class _AddDareTruthPageState extends State<AddDareTruthPage> {
           final List<PlayModeModel> list = ctrl.checkList;
           return Wrap(
             children: List.generate(
-              list.length,
-              (index) => BubbleSelect(
-                data: list[index],
-                onTap: () => ctrl.onSelect(list[index].mode),
-              ),
+              list.length + 1,
+              (index) {
+                if (index == list.length) {
+                  return MyCheckBox(
+                    label: 'Select All',
+                    value: ctrl.selectAll,
+                    onChecked: (value) => ctrl.onSelectAll(value),
+                  );
+                }
+                return BubbleSelect(
+                  data: list[index],
+                  onTap: () => ctrl.onSelect(list[index].mode),
+                );
+              },
             ),
           );
         },

@@ -1,18 +1,22 @@
 import '../lib_exp.dart';
 
 class BubbleSelectCtrl with ChangeNotifier {
-  final List<PlayModeModel> _playModeModel = [];
-  List<PlayModeModel> get checkList => _playModeModel;
+  bool _selectAll = false;
+  bool get selectAll => _selectAll;
+
+  final List<PlayModeModel> _playModeModels = [];
+  List<PlayModeModel> get checkList => _playModeModels;
   init() {
-    _playModeModel.clear();
+    _playModeModels.clear();
+    _selectAll = false;
     for (var mode in PlayMode.values) {
-      _playModeModel.add(PlayModeModel(mode: mode, selected: true));
+      _playModeModels.add(PlayModeModel(mode: mode, selected: false));
     }
   }
 
   List<int> getModes() {
     List<int> modes = [];
-    for (PlayModeModel model in _playModeModel) {
+    for (PlayModeModel model in _playModeModels) {
       if (model.selected) {
         modes.add(model.mode.index);
       }
@@ -21,11 +25,20 @@ class BubbleSelectCtrl with ChangeNotifier {
   }
 
   void onSelect(PlayMode mode, {bool? select}) {
-    for (PlayModeModel model in _playModeModel) {
+    for (PlayModeModel model in _playModeModels) {
       if (model.mode == mode) {
         model.selected = select ?? !model.selected;
       }
     }
+    _selectAll = _playModeModels.every((e) => e.selected);
+    notifyListeners();
+  }
+
+  void onSelectAll(bool selectAll) {
+    for (PlayModeModel model in _playModeModels) {
+      model.selected = selectAll;
+    }
+    _selectAll = selectAll;
     notifyListeners();
   }
 }
